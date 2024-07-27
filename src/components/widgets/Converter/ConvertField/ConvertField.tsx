@@ -34,7 +34,7 @@ export const ConvertField = ({
         className={cls.textField}
         value={inputValue}
         onChange={(e) => handleInputValue(e.target.value)}
-        label="Валюта"
+        label={selectValue}
       />
 
       <FormControl className={cls.formControl}>
