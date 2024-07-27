@@ -17,7 +17,7 @@ interface Props {
   handleInputValue: (value: string) => void;
 
   selectValue: ICurrency;
-  handleSelectValue: (value: ICurrency) => void;
+  handleSelectValue: (value: string) => void;
 }
 
 export const ConvertField = ({

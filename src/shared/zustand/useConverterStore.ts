@@ -9,13 +9,13 @@ interface StoreState {
   leftCurrency: ICurrency;
 
   handleLeftInput: (value: string) => void;
-  handleLeftCurrency: (value: ICurrency) => void;
+  handleLeftCurrency: (value: string) => void;
 
   rightInput: string;
   rightCurrency: ICurrency;
 
   handleRightInput: (value: string) => void;
-  handleRightCurrency: (value: ICurrency) => void;
+  handleRightCurrency: (value: string) => void;
 
   start: () => void;
 
@@ -37,9 +37,14 @@ export const useConverterStore = create<StoreState>()(
 
     fetchCurrencies: async () => {
       try {
+        set((state) => {
+          state.isLoading = true;
+        });
+
         const { data } = await apiBase.get(`latest/rub`);
 
         set((state) => {
+          state.isLoading = false;
           state.currencies = Object.keys(data.conversion_rates);
         });
       } catch (error) {
@@ -53,6 +58,12 @@ export const useConverterStore = create<StoreState>()(
       set((state) => {
         state.isLoading = true;
         state.isError = false;
+        state.currencies = [
+          ICurrency.AWG,
+          ICurrency.EUR,
+          ICurrency.RUB,
+          ICurrency.USD,
+        ];
       });
     },
 
