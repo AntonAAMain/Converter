@@ -18,6 +18,7 @@ export const Converter = () => {
     rightInput,
     leftCurrency,
     leftInput,
+    isLoading,
   } = useConverterStore();
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export const Converter = () => {
   }, []);
 
   return (
-    <div className={cn(cls.container)}>
+    <div className={cn(cls.container, { [cls.container_loading]: isLoading })}>
       <ConvertField
         inputValue={leftInput}
         handleInputValue={handleLeftInput}

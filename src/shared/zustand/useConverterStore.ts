@@ -20,10 +20,13 @@ interface StoreState {
   start: () => void;
 
   course: number;
+
+  isLoading: boolean;
 }
 
 export const useConverterStore = create<StoreState>()(
   immer((set, get) => ({
+    isLoading: true,
     course: 0,
 
     leftInput: "0",
@@ -97,6 +100,7 @@ export const useConverterStore = create<StoreState>()(
           state.rightCurrency = ICurrency.RUB;
           state.leftInput = "1";
           state.rightInput = (1 * conversionRate).toFixed(2);
+          state.isLoading = false;
         });
       } catch (error) {}
     },

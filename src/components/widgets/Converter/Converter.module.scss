@@ -6,4 +6,9 @@
   width: max-content;
   margin: 50px auto;
   align-items: center;
+  transition: 1s opacity;
+}
+
+.container_loading {
+  opacity: 0;
 }

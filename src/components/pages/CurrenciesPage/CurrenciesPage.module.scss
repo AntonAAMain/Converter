@@ -1,0 +1,37 @@
+.container {
+  position: relative;
+  width: max-content;
+  margin: 0 auto;
+  padding: 50px 0;
+  transition: 1s opacity;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+}
+
+.container_loading {
+  opacity: 0;
+}
+
+.rates {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.rate {
+  padding: 10px;
+  width: 170px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.428);
+  border-radius: 5px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 18px;
+}
