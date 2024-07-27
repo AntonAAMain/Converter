@@ -1,11 +1,11 @@
 "use client";
+import { useCurrenciesStore } from "@/shared/zustand/useCurrenciesStore";
+import { ErrorText } from "@/components/widgets/ErrorText/ErrorText";
+import { useEffect } from "react";
 
 import cn from "classnames";
 
 import cls from "./CurrenciesPage.module.scss";
-import { useCurrenciesStore } from "@/shared/zustand/useCurrenciesStore";
-import { useEffect } from "react";
-import { ErrorText } from "@/components/widgets/ErrorText/ErrorText";
 
 export const CurrenciesPage = () => {
   const { fetchRates, isLoading, rates, reset, isError } = useCurrenciesStore();

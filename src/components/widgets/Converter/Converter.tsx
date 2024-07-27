@@ -2,11 +2,12 @@
 
 import { useConverterStore } from "@/shared/zustand/useConverterStore";
 import { ConvertField } from "./ConvertField/ConvertField";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import cn from "classnames";
 
 import cls from "./Converter.module.scss";
 import { ErrorText } from "../ErrorText/ErrorText";
+import { Button } from "@mui/material";
 
 export const Converter = () => {
   const {
@@ -22,6 +23,7 @@ export const Converter = () => {
     isLoading,
     reset,
     isError,
+    fetchCurrencies,
   } = useConverterStore();
 
   useEffect(() => {
@@ -30,25 +32,46 @@ export const Converter = () => {
     return reset;
   }, []);
 
+  const [isCurrenciesFetched, setIsCurrenciesFetched] =
+    useState<boolean>(false);
+
+  const getMoreCurrencies = () => {
+    setIsCurrenciesFetched(true);
+    fetchCurrencies();
+  };
+
   return (
     <>
       {!isError && (
         <div
           className={cn(cls.container, { [cls.container_loading]: isLoading })}
         >
-          <ConvertField
-            inputValue={leftInput}
-            handleInputValue={handleLeftInput}
-            selectValue={leftCurrency}
-            handleSelectValue={handleLeftCurrency}
-          />
-          in
-          <ConvertField
-            inputValue={rightInput}
-            handleInputValue={handleRightInput}
-            selectValue={rightCurrency}
-            handleSelectValue={handleRightCurrency}
-          />
+          <div className={cls.fields}>
+            <ConvertField
+              inputValue={leftInput}
+              handleInputValue={handleLeftInput}
+              selectValue={leftCurrency}
+              handleSelectValue={handleLeftCurrency}
+            />
+            in
+            <ConvertField
+              inputValue={rightInput}
+              handleInputValue={handleRightInput}
+              selectValue={rightCurrency}
+              handleSelectValue={handleRightCurrency}
+            />
+          </div>
+
+          <Button
+            onClick={getMoreCurrencies}
+            className={cn(cls.downloadBtn, {
+              [cls.downloadBtn_hidden]: isCurrenciesFetched,
+            })}
+            variant="contained"
+            color="secondary"
+          >
+            Загрузить больше валют
+          </Button>
         </div>
       )}
 

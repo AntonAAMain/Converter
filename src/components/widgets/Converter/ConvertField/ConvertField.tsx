@@ -10,6 +10,7 @@ import { ICurrency } from "@/shared/types/currencies";
 import cn from "classnames";
 
 import cls from "./ConvertField.module.scss";
+import { useConverterStore } from "@/shared/zustand/useConverterStore";
 
 interface Props {
   inputValue: string;
@@ -25,6 +26,8 @@ export const ConvertField = ({
   selectValue,
   handleSelectValue,
 }: Props) => {
+  const { currencies } = useConverterStore();
+
   return (
     <div className={cn(cls.container)}>
       <TextField
@@ -35,25 +38,17 @@ export const ConvertField = ({
       />
 
       <FormControl className={cls.formControl}>
-        {/* <InputLabel
-        // id="demo-simple-select-label"
-        >
-          Валюта
-        </InputLabel> */}
         <Select
           value={selectValue}
           onChange={(e) => handleSelectValue(e.target.value as ICurrency)}
           MenuProps={{ disableScrollLock: true }}
           className={cls.select}
-          //   labelId="demo-simple-select-label"
-          //   id="demo-simple-select"
-          //   value={age}
-          //   onChange={handleChange}
         >
-          <MenuItem value={ICurrency.AWG}>{ICurrency.AWG}</MenuItem>
-          <MenuItem value={ICurrency.EUR}>{ICurrency.EUR}</MenuItem>
-          <MenuItem value={ICurrency.RUB}>{ICurrency.RUB}</MenuItem>
-          <MenuItem value={ICurrency.USD}>{ICurrency.USD}</MenuItem>
+          {currencies.map((currency) => (
+            <MenuItem key={currency} value={currency}>
+              {currency}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

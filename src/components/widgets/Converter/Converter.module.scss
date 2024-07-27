@@ -1,7 +1,7 @@
 .container {
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 20px;
   width: max-content;
   margin: 50px auto;
@@ -15,4 +15,29 @@
 
 .container_loading {
   opacity: 0;
+}
+
+.fields {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+  width: max-content;
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+}
+
+.downloadBtn {
+  position: relative;
+  font-weight: 600;
+  margin-top: 50px;
+  transition: 0.5s opacity;
+}
+
+.downloadBtn_hidden {
+  opacity: 0;
+  pointer-events: none;
 }

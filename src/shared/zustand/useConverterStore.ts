@@ -24,12 +24,30 @@ interface StoreState {
   isLoading: boolean;
   isError: boolean;
 
+  fetchCurrencies: () => void;
+  currencies: string[];
+
   reset: () => void;
 }
 
 export const useConverterStore = create<StoreState>()(
   immer((set, get) => ({
     isError: false,
+    currencies: [ICurrency.AWG, ICurrency.EUR, ICurrency.RUB, ICurrency.USD],
+
+    fetchCurrencies: async () => {
+      try {
+        const { data } = await apiBase.get(`latest/rub`);
+
+        set((state) => {
+          state.currencies = Object.keys(data.conversion_rates);
+        });
+      } catch (error) {
+        set((state) => {
+          state.isError = true;
+        });
+      }
+    },
 
     reset: () => {
       set((state) => {
