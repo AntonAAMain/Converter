@@ -6,6 +6,7 @@ interface StoreState {
   rates: [string, number][];
   fetchRates: () => void;
   isLoading: boolean;
+  isError: boolean;
 
   reset: () => void;
 }
@@ -13,10 +14,12 @@ interface StoreState {
 export const useCurrenciesStore = create<StoreState>()(
   immer((set, get) => ({
     isLoading: true,
+    isError: false,
 
     reset: () => {
       set((state) => {
-        state.isLoading = false;
+        state.isLoading = true;
+        state.isError = false;
       });
     },
 
@@ -30,7 +33,11 @@ export const useCurrenciesStore = create<StoreState>()(
           state.rates = Object.entries(data.conversion_rates);
           state.isLoading = false;
         });
-      } catch (error) {}
+      } catch (error) {
+        set((state) => {
+          state.isError = true;
+        });
+      }
     },
   }))
 );

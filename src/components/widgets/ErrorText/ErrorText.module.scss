@@ -1,0 +1,10 @@
+.container {
+  position: relative;
+  width: max-content;
+  margin: 50px auto;
+
+  @media screen and (max-width: 500px) {
+    text-align: center;
+    width: 350px;
+  }
+}

@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import cn from "classnames";
 
 import cls from "./Converter.module.scss";
+import { ErrorText } from "../ErrorText/ErrorText";
 
 export const Converter = () => {
   const {
@@ -19,27 +20,39 @@ export const Converter = () => {
     leftCurrency,
     leftInput,
     isLoading,
+    reset,
+    isError,
   } = useConverterStore();
 
   useEffect(() => {
     start();
+
+    return reset;
   }, []);
 
   return (
-    <div className={cn(cls.container, { [cls.container_loading]: isLoading })}>
-      <ConvertField
-        inputValue={leftInput}
-        handleInputValue={handleLeftInput}
-        selectValue={leftCurrency}
-        handleSelectValue={handleLeftCurrency}
-      />
-      in
-      <ConvertField
-        inputValue={rightInput}
-        handleInputValue={handleRightInput}
-        selectValue={rightCurrency}
-        handleSelectValue={handleRightCurrency}
-      />
-    </div>
+    <>
+      {!isError && (
+        <div
+          className={cn(cls.container, { [cls.container_loading]: isLoading })}
+        >
+          <ConvertField
+            inputValue={leftInput}
+            handleInputValue={handleLeftInput}
+            selectValue={leftCurrency}
+            handleSelectValue={handleLeftCurrency}
+          />
+          in
+          <ConvertField
+            inputValue={rightInput}
+            handleInputValue={handleRightInput}
+            selectValue={rightCurrency}
+            handleSelectValue={handleRightCurrency}
+          />
+        </div>
+      )}
+
+      {isError && <ErrorText />}
+    </>
   );
 };

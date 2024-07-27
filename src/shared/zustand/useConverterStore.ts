@@ -22,10 +22,22 @@ interface StoreState {
   course: number;
 
   isLoading: boolean;
+  isError: boolean;
+
+  reset: () => void;
 }
 
 export const useConverterStore = create<StoreState>()(
   immer((set, get) => ({
+    isError: false,
+
+    reset: () => {
+      set((state) => {
+        state.isLoading = true;
+        state.isError = false;
+      });
+    },
+
     isLoading: true,
     course: 0,
 
@@ -51,7 +63,11 @@ export const useConverterStore = create<StoreState>()(
               ? "0"
               : (parseFloat(get().leftInput) * conversionRate).toFixed(2);
         });
-      } catch (error) {}
+      } catch (error) {
+        set((state) => {
+          state.isError = true;
+        });
+      }
     },
 
     handleLeftInput: (value: string) => {
@@ -102,7 +118,11 @@ export const useConverterStore = create<StoreState>()(
           state.rightInput = (1 * conversionRate).toFixed(2);
           state.isLoading = false;
         });
-      } catch (error) {}
+      } catch (error) {
+        set((state) => {
+          state.isError = true;
+        });
+      }
     },
   }))
 );
