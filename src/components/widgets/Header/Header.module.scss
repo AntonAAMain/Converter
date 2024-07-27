@@ -1,0 +1,15 @@
+.container {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  gap: 10px;
+  width: max-content;
+  margin-top: 20px;
+}
+
+.button {
+  width: 200px;
+  height: 49px;
+  font-weight: 600;
+}
