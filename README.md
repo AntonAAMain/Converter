@@ -6,6 +6,14 @@ At the very beginning we clone the repository
 git clone https://github.com/AntonAAMain/Converter.git
 ```
 
+We need to go to the project folder
+
+
+```bash
+cd converter
+```
+
+
 Next we install the dependencies:
 
 ```bash
