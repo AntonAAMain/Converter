@@ -11,18 +11,38 @@ import cn from "classnames";
 
 import cls from "./ConvertField.module.scss";
 
-export const ConvertField = () => {
+interface Props {
+  inputValue: string;
+  handleInputValue: (value: string) => void;
+
+  selectValue: ICurrency;
+  handleSelectValue: (value: ICurrency) => void;
+}
+
+export const ConvertField = ({
+  inputValue,
+  handleInputValue,
+  selectValue,
+  handleSelectValue,
+}: Props) => {
   return (
     <div className={cn(cls.container)}>
-      <TextField label="Валюта" />
+      <TextField
+        className={cls.textField}
+        value={inputValue}
+        onChange={(e) => handleInputValue(e.target.value)}
+        label="Валюта"
+      />
 
       <FormControl className={cls.formControl}>
-        <InputLabel
+        {/* <InputLabel
         // id="demo-simple-select-label"
         >
-          Age
-        </InputLabel>
+          Валюта
+        </InputLabel> */}
         <Select
+          value={selectValue}
+          onChange={(e) => handleSelectValue(e.target.value as ICurrency)}
           MenuProps={{ disableScrollLock: true }}
           className={cls.select}
           //   labelId="demo-simple-select-label"

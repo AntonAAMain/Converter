@@ -6,10 +6,16 @@ import { apiBase } from "../http";
 
 interface StoreState {
   leftInput: string;
-  leftCurrency: ICurrency | null;
+  leftCurrency: ICurrency;
+
+  handleLeftInput: (value: string) => void;
+  handleLeftCurrency: (value: ICurrency) => void;
 
   rightInput: string;
-  rightCurrency: ICurrency | null;
+  rightCurrency: ICurrency;
+
+  handleRightInput: (value: string) => void;
+  handleRightCurrency: (value: ICurrency) => void;
 
   start: () => void;
 
@@ -26,11 +32,72 @@ export const useConverterStore = create<StoreState>()(
     rightCurrency: null,
     rightInput: "0",
 
+    handleLeftCurrency: async (value: ICurrency) => {
+      try {
+        const { data } = await apiBase.get(
+          `pair/${value}/${get().rightCurrency}`
+        );
+
+        const conversionRate = data.conversion_rate;
+
+        set((state) => {
+          state.course = data.conversion_rate;
+          state.leftCurrency = value;
+          state.rightInput =
+            get().leftInput === ""
+              ? "0"
+              : (parseFloat(get().leftInput) * conversionRate).toFixed(2);
+        });
+      } catch (error) {}
+    },
+
+    handleLeftInput: (value: string) => {
+      set((state) => {
+        state.leftInput = value;
+        state.rightInput =
+          value === "" ? "0" : (parseFloat(value) * get().course).toFixed(2);
+      });
+    },
+
+    handleRightCurrency: async (value: ICurrency) => {
+      try {
+        const { data } = await apiBase.get(
+          `pair/${get().leftCurrency}/${value}`
+        );
+
+        const conversionRate = data.conversion_rate;
+
+        set((state) => {
+          state.course = data.conversion_rate;
+          state.rightCurrency = value;
+          state.leftInput =
+            get().rightInput === ""
+              ? "0"
+              : (parseFloat(get().rightInput) / conversionRate).toFixed(2);
+        });
+      } catch (error) {}
+    },
+
+    handleRightInput: (value: string) => {
+      set((state) => {
+        state.rightInput = value;
+        state.leftInput =
+          value === "" ? "0" : (parseFloat(value) / get().course).toFixed(2);
+      });
+    },
+
     start: async () => {
       try {
         const { data } = await apiBase.get("pair/usd/rub");
 
-        console.log("data is - ", data);
+        const conversionRate = data.conversion_rate;
+        set((state) => {
+          state.course = conversionRate;
+          state.leftCurrency = ICurrency.USD;
+          state.rightCurrency = ICurrency.RUB;
+          state.leftInput = "1";
+          state.rightInput = (1 * conversionRate).toFixed(2);
+        });
       } catch (error) {}
     },
   }))
